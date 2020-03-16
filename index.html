@@ -8,12 +8,13 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
     
 
     <div id="login-area">
-        <h1 class="text-center">Welcome to Pinky-bank</h1>
+        <h1 class="text-center">Welcome to Hablu-bank</h1>
         <div class="submit-area">
             <h4>Login</h4>
             <br>
@@ -36,7 +37,7 @@
             <div class="col-md-4">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4">
@@ -50,7 +51,7 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input id="depositAmount" type="text" class="form-control" placeholder="$ Amount you want to Deposit">
+                    <input id="newDeposit" type="number" class="form-control" placeholder="$ Amount you want to Deposit">
                     <br>
                     <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
@@ -59,9 +60,9 @@
                 <div class="submit-area">
                     <h4>Withdraw</h4>
                    
-                    <input type="text" class="form-control" placeholder="$ Amount you want to withdraw">
+                    <input id="newWithdraw" type="number" class="form-control" placeholder="$ Amount you want to withdraw">
                     <br>
-                    <button class="btn btn-success">Withdraw</button>
+                    <button id=addWithdraw class="btn btn-success">Withdraw</button>
                 </div>
             </div>
         </div>
@@ -83,28 +84,38 @@
         //deposit btn event handler
         const depositBtn =document.getElementById("addDeposit")
         depositBtn.addEventListener("click",function(){
-            const depositAmount=document.getElementById("depositAmount").value ;
-            const depositNumber=parseFloat(depositAmount);
-            // const currentDeposit=document.getElementById("currentDeposit").innerText;
-            // const currentDepositNumber=parseFloat(currentDeposit);
-            // const totalDeposit=depositNumber+currentDepositNumber;
-            // document.getElementById("currentDeposit").innerText=totalDeposit;
-            updateSpanText("currentDeposit", depositNumber);
-            updateSpanText("currentBalance", depositNumber);
+            const depositAmount=getSpanAmount("newDeposit");
+            updateSpanText("currentDeposit", depositAmount);
+            updateSpanText("currentBalance", depositAmount);
             
-            
-            document.getElementById("depositAmount").value="" ;
+            document.getElementById("newDeposit").value="" ;
 
         })
-        function updateSpanText(id, depositNumber){
+        
+        
+        //withdraw btn event handler
+        const withdrawButton=document.getElementById("addWithdraw");
+        withdrawButton.addEventListener("click",function(){
+            const withdrawAmount= getSpanAmount("newWithdraw");
+            updateSpanText("currentWithdraw", withdrawAmount);   
+            updateSpanText("currentBalance", -1*withdrawAmount);             
+            document.getElementById("newWithdraw").value="" ;
+        })
+        function getSpanAmount(id){
+            const Amount=document.getElementById(id).value ;
+            const AmountNumber=parseFloat(Amount);
+            return AmountNumber;
+
+        }
+        function updateSpanText(id, depositAmount){
             const currentBalance=document.getElementById(id).innerText;
             const currentBalanceNumber=parseFloat(currentBalance);
-            const totalBalance = depositNumber+currentBalanceNumber;
+            const totalBalance = depositAmount+currentBalanceNumber;
             
             document.getElementById(id).innerText= totalBalance;
             
         }
-
+        
     </script>
 
 
